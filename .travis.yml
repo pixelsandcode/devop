@@ -3,7 +3,15 @@ services:
   - docker
 
 before_install:
+  - openssl aes-256-cbc -K $encrypted_2ce2646e2bc7_key -iv $encrypted_2ce2646e2bc7_iv
+    -in client-secret.json.enc -out client-secret.json -d
   - docker build -t arashkay/devop -f Dockerfile.dev .
 
 script:
   - docker run arashkay/devop npm run test -- --coverage
+
+deploy:
+  provider: gae
+  keyfile: client-secret.json.enc
+  project: devop-231723
+  on: master
