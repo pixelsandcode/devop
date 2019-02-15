@@ -12,6 +12,6 @@ script:
 
 deploy:
   provider: gae
-  keyfile: client-secret.json.enc
+  keyfile: client-secret.json
   project: devop-231723
   on: master
