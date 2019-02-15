@@ -5,15 +5,22 @@ services:
 before_install:
   - openssl aes-256-cbc -K $encrypted_2ce2646e2bc7_key -iv $encrypted_2ce2646e2bc7_iv
     -in client-secret.json.enc -out client-secret.json -d
+  - export GOOGLE_APPLICATION_CREDENTIALS=client-secret.json
   - docker build -t arashkay/devop -f Dockerfile.dev .
 
 script:
   - docker run arashkay/devop npm run test -- --coverage
 
+before_deploy:
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - source /home/travis/google-cloud-sdk/path.bash.inc
+  - gcloud --quiet version
+  - gcloud --quiet components update
+  - gcloud --quiet components beta update
+  - gcloud --quiet components update kubectl
+
 deploy:
-  provider: gae
-  keyfile: client-secret.json
-  project: devop-231723
+  provider: script
+  script: ./deploy.sh
   on: master
   skip_cleanup: true
-  config: cloudbuild.yml
