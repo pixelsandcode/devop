@@ -15,3 +15,5 @@ deploy:
   keyfile: client-secret.json
   project: devop-231723
   on: master
+  skip_cleanup: true
+  config: cloudbuild.yml
