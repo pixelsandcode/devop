@@ -16,7 +16,9 @@ before_deploy:
   - source /home/travis/google-cloud-sdk/path.bash.inc
   - gcloud --quiet version
   - gcloud --quiet components update
+  - gcloud auth revoke
   - gcloud auth activate-service-account --key-file=client-secret.json
+  - gcloud config set project 66940248957
   - gcloud builds submit --config cloudbuild.yml .
   # - gcloud --quiet components update kubectl
 
