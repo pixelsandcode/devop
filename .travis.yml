@@ -17,7 +17,8 @@ before_deploy:
   - gcloud --quiet version
   - gcloud --quiet components update
   - gcloud auth activate-service-account --key-file=client-secret.json
-  - gcloud config set project devop-231723
+  # - gcloud config set project devop-231723
+  - gcloud config get-value project
   - gcloud builds submit --config cloudbuild.yml .
   # - gcloud --quiet components update kubectl
 
