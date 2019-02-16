@@ -17,10 +17,11 @@ before_deploy:
   - gcloud --quiet version
   - gcloud --quiet components update
   - gcloud auth activate-service-account --key-file=client-secret.json
+  - gcloud builds submit --config cloudbuild.yml .
   # - gcloud --quiet components update kubectl
 
 deploy:
   provider: script
-  script: sh $TRAVIS_BUILD/deploy.sh
+  script: ./deploy.sh
   on: master
   skip_cleanup: true
