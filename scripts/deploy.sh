@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROJECT_ID = devop-231723
+PROJECT_ID=devop-231723
 
 set -e
 
